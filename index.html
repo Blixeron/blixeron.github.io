@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Blixer</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <h1>h</h1>
+    <video autoplay muted loop id="bg-video">
+        <source src="assets/backgrounds/bg.mp4" type="video/mp4">
+    </video>
+    <div class="terminal">
+        <div class="terminal-content" style="display: flex; gap: 24px;">
+            <img src="assets/backgrounds/avatar.png" alt="Blixer Avatar"
+                style="height: 180px; width: 180px; object-fit: contain; border-radius: 8px; border: 2px solid #fff8b0;">
+            <pre style="margin: 0; color: #fff8b0;">
+Blixer@he/him
+───────────────
+Dumbass dragon.
+
+I like a lot of EDM. I also like to code sometimes.
+            </pre>
+        </div>
+    </div>
+    <script src="scripts/terminal.js"></script>
 </body>
 </html>
