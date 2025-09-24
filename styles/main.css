@@ -41,6 +41,7 @@ body {
     font-family: 'Cascadia Mono', 'Consolas', 'Monaco', monospace;
     display: flex;
     flex-direction: column;
+    aspect-ratio: 3 / 2;
 }
 
 .terminal.dragging {
@@ -54,7 +55,7 @@ body {
     font-size: 1.1rem;
     display: flex;
     gap: 24px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: flex-start;
 }
 
@@ -78,6 +79,33 @@ body {
     object-fit: contain;
 }
 
+.avatar-img {
+    height: 180px;
+    width: 180px;
+    max-width: 40vw;
+    max-height: 40vw;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 2px solid #fff8b0;
+    flex-shrink: 0;
+}
+
+.colors {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin-right: 8px;
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+
+.colors span {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+}
+
 @media (max-width: 700px) {
     .terminal {
         width: 98vw;
@@ -87,10 +115,11 @@ body {
         padding: 10px;
     }
     .terminal-content {
-        flex-direction: column;
+        flex-direction: row;
         gap: 12px;
         padding: 8px;
         align-items: flex-start;
+        flex-wrap: nowrap;
     }
     .terminal-content img {
         width: 60vw;
@@ -101,6 +130,18 @@ body {
         font-size: 1rem;
         min-width: 80px;
         max-width: 100%;
+    }
+    .avatar-img {
+        height: 100px;
+        width: 100px;
+        max-width: 30vw;
+        max-height: 30vw;
+        border-radius: 6px;
+    }
+    .colors span {
+        width: 20px;
+        height: 20px;
+        border-radius: 0;
     }
 }
 
