@@ -77,7 +77,7 @@ body::after {
 .card {
     position: relative;
     z-index: 2;
-    max-width: 420px;
+    max-width: 520px;
     padding: 3rem;
     border-radius: 18px;
     background: var(--card-bg);
@@ -108,7 +108,10 @@ body::after {
 }
 
 .skill-badge {
-    padding: 0.4rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 1rem;
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -118,6 +121,21 @@ body::after {
     box-shadow: 0 8px 18px rgba(20, 9, 36, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(12px);
+}
+
+.skill-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-icon i {
+    font-size: 1.2rem;
+}
+
+.skill-label {
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .skill-ts {
@@ -143,6 +161,7 @@ body::after {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.65rem;
     padding: 0.85rem 1.9rem;
     border-radius: 999px;
     font-weight: 600;
@@ -151,6 +170,20 @@ body::after {
     background: #ffffff;
     box-shadow: 0 15px 35px rgba(255, 220, 200, 0.45);
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-icon i {
+    font-size: 1.1rem;
+}
+
+.cta-label {
+    line-height: 1;
 }
 
 .cta:hover {
