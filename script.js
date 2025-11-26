@@ -14,10 +14,10 @@ const config = {
 const mouse = { x: 0, y: 0, active: false };
 const particles = [];
 const palette = [
-    { hue: 16, saturation: 92, lightness: 60 },
-    { hue: 28, saturation: 88, lightness: 64 },
-    { hue: 342, saturation: 78, lightness: 66 },
-    { hue: 305, saturation: 72, lightness: 63 },
+    { hue: 48, saturation: 82, lightness: 84 },
+    { hue: 43, saturation: 72, lightness: 89 },
+    { hue: 52, saturation: 66, lightness: 92 },
+    { hue: 55, saturation: 48, lightness: 94 },
 ];
 
 function resizeCanvas() {
@@ -54,9 +54,9 @@ class Particle {
         const satVariation = (Math.random() - 0.5) * 8;
         const lightVariation = (Math.random() - 0.5) * 6;
         this.hue = swatch.hue + hueVariation;
-        this.saturation = Math.min(100, Math.max(65, swatch.saturation + satVariation));
-        this.lightness = Math.min(80, Math.max(55, swatch.lightness + lightVariation));
-        this.alpha = 0.48 + Math.random() * 0.32;
+        this.saturation = Math.min(100, Math.max(20, swatch.saturation + satVariation));
+        this.lightness = Math.min(98, Math.max(70, swatch.lightness + lightVariation));
+        this.alpha = 0.42 + Math.random() * 0.28;
     }
 
     update() {
@@ -89,10 +89,10 @@ class Particle {
 
     draw() {
         ctx.beginPath();
-        const highlightLightness = Math.min(this.lightness + 10, 85);
+        const highlightLightness = Math.min(this.lightness + 6, 100);
         ctx.fillStyle = `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.alpha})`;
-        ctx.shadowColor = `hsla(${this.hue}, ${this.saturation}%, ${highlightLightness}%, 0.55)`;
-        ctx.shadowBlur = 16;
+        ctx.shadowColor = `hsla(${this.hue}, ${this.saturation}%, ${highlightLightness}%, 0.45)`;
+        ctx.shadowBlur = 18;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
