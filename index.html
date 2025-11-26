@@ -1,49 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blixer</title>
-    <link rel="stylesheet" href="styles/main.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Blixeron</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <video autoplay muted loop id="bg-video">
-        <source src="assets/backgrounds/bg.mp4" type="video/mp4">
-    </video>
-    <div class="terminal">
-        <div class="terminal-content" style="display: flex; gap: 24px;">
-            <img src="assets/backgrounds/avatar.png" alt="Blixer Avatar" class="avatar-img" draggable="false">
-            <pre style="margin: 0; color: #fff8b0;">
-Blixer@he/him
-───────────────
-OS: <span id="os-name"></span>
-Browser: <span id="browser-name"></span>
+	<canvas id="particle-canvas" aria-hidden="true"></canvas>
+	<main class="card" role="main">
+		<h1>Blixer</h1>
+		<p>
+			Mainly a backend developer.
+		</p>
+		<div class="skills" aria-label="Core skills">
+			<span class="skill-badge skill-ts">TypeScript</span>
+			<span class="skill-badge skill-python">Python</span>
+			<span class="skill-badge skill-sql">SQL</span>
+		</div>
+		<a class="cta" href="https://github.com/blixeron" target="_blank" rel="noopener noreferrer">Github</a>
+	</main>
 
-Dumbass dragon.
-
-I like EDM. I also like to code sometimes.
-
-<div class="colors">
-    <span style="background:#322c36"></span>
-    <span style="background:#534f5d"></span>
-    <span style="background:#7e7886"></span>
-    <span style="background:#c3bfd0"></span>
-    <span style="background:#e6c679"></span>
-    <span style="background:#d09c1f"></span>
-</div><div class="colors">
-    <span style="background:#241f27"></span>
-    <span style="background:#3a3741"></span>
-    <span style="background:#5a5661"></span>
-    <span style="background:#a09cb0"></span>
-    <span style="background:#bfa74e"></span>
-    <span style="background:#a87a13"></span>
-</div>
-            </pre>
-        </div>
-    </div>
-    <script src="scripts/terminal.js"></script>
+	<script src="script.js"></script>
 </body>
-
 </html>
