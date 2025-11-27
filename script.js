@@ -33,6 +33,7 @@ function resizeCanvas() {
 }
 
 window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', updateStageOffset);
 resizeCanvas();
 
 class Particle {
@@ -131,3 +132,168 @@ window.addEventListener('mouseout', (event) => {
 
 initParticles();
 animate();
+
+const cardStage = document.querySelector('.card-stage');
+const card = document.querySelector('.card');
+const cardInner = card?.querySelector('.card-inner');
+const frontFace = card?.querySelector('.card-front');
+const backFace = card?.querySelector('.card-back');
+const avatarEl = document.getElementById('profile-avatar');
+const readmeContainer = document.getElementById('readme-content');
+
+const githubUsername = 'blixeron';
+const readmeUrl = `https://raw.githubusercontent.com/${githubUsername}/${githubUsername}/main/README.md`;
+const avatarUrl = `https://github.com/${githubUsername}.png?size=320`;
+
+if (card && cardStage && cardInner && frontFace && backFace) {
+    initializeProfileCard();
+}
+
+function initializeProfileCard() {
+    card.setAttribute('aria-pressed', 'false');
+
+    card.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('a, button')) {
+            return;
+        }
+        toggleCard();
+    });
+
+    card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleCard();
+        }
+    });
+
+    if (avatarEl) {
+        avatarEl.src = avatarUrl;
+        avatarEl.addEventListener('load', updateStageOffset, { once: true });
+        if (avatarEl.complete) {
+            updateStageOffset();
+        }
+    }
+
+    loadGitHubReadme();
+    updateStageOffset();
+}
+
+function toggleCard() {
+    if (!card || !cardInner) {
+        return;
+    }
+    const flipped = card.classList.toggle('is-flipped');
+    if (cardStage) {
+        cardStage.classList.toggle('is-flipped', flipped);
+    }
+    updateCardAria(flipped);
+    updateStageOffset();
+}
+
+function updateCardAria(isFlipped) {
+    if (!card || !frontFace || !backFace) {
+        return;
+    }
+
+    card.setAttribute('aria-pressed', isFlipped ? 'true' : 'false');
+    frontFace.setAttribute('aria-hidden', isFlipped ? 'true' : 'false');
+    backFace.setAttribute('aria-hidden', isFlipped ? 'false' : 'true');
+}
+
+function updateStageOffset() {
+    if (!cardStage || !card) {
+        return;
+    }
+
+    cardStage.classList.remove('is-compact');
+
+    const stageWidth = cardStage.clientWidth;
+    const cardWidth = card.offsetWidth;
+    const cardHeight = cardInner?.offsetHeight || card.offsetHeight;
+    const viewportWidth = window.innerWidth;
+
+    if (!avatarEl) {
+        cardStage.classList.add('is-compact');
+        cardStage.style.setProperty('--card-shift', '0px');
+        cardStage.style.setProperty('--avatar-shift', '0px');
+        return;
+    }
+
+    const computedCardHeight = cardHeight > 0 ? cardHeight : 220;
+    const avatarSize = Math.round(Math.max(160, computedCardHeight));
+
+    cardStage.style.setProperty('--avatar-size', `${avatarSize}px`);
+    avatarEl.style.width = `${avatarSize}px`;
+    avatarEl.style.height = `${avatarSize}px`;
+
+    const sideBySidePossible = viewportWidth > 820 && cardWidth > 0 && stageWidth >= cardWidth + avatarSize + 64;
+
+    if (!sideBySidePossible) {
+        avatarEl.style.display = 'none';
+        cardStage.classList.add('is-compact');
+        cardStage.style.setProperty('--card-shift', '0px');
+        cardStage.style.setProperty('--avatar-shift', '0px');
+        return;
+    }
+
+    avatarEl.style.display = '';
+
+    const cardBoundary = Math.max(0, (stageWidth - cardWidth) / 2);
+    const avatarBoundary = Math.max(0, (stageWidth - avatarSize) / 2);
+    const minShiftNeeded = (cardWidth + avatarSize) / 4 + 8;
+    const maxShift = Math.min(cardBoundary, avatarBoundary);
+
+    if (maxShift <= minShiftNeeded) {
+        avatarEl.style.display = 'none';
+        cardStage.classList.add('is-compact');
+        cardStage.style.setProperty('--card-shift', '0px');
+        cardStage.style.setProperty('--avatar-shift', '0px');
+        return;
+    }
+
+    cardStage.classList.remove('is-compact');
+
+    const desiredGap = Math.min(120, Math.max(48, stageWidth * 0.06));
+    const desiredShift = (avatarSize + desiredGap) / 2;
+    const shift = Math.max(minShiftNeeded, Math.min(desiredShift, maxShift));
+
+    cardStage.style.setProperty('--card-shift', `${shift}px`);
+    cardStage.style.setProperty('--avatar-shift', `${shift}px`);
+}
+
+async function loadGitHubReadme() {
+    if (!readmeContainer) {
+        return;
+    }
+
+    try {
+        const response = await fetch(readmeUrl, {
+            headers: {
+                Accept: 'text/plain',
+            },
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to load README: ${response.status}`);
+        }
+
+        const markdown = await response.text();
+
+        if (window.marked && typeof window.marked.parse === 'function') {
+            readmeContainer.innerHTML = window.marked.parse(markdown);
+        } else {
+            readmeContainer.textContent = markdown;
+        }
+
+        readmeContainer.querySelectorAll('a').forEach((link) => {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        });
+
+        updateStageOffset();
+    } catch (error) {
+        readmeContainer.innerHTML = '<p>Could not load your GitHub README right now. You can visit <a href="https://github.com/blixeron" target="_blank" rel="noopener noreferrer">github.com/blixeron</a> instead.</p>';
+        updateStageOffset();
+    }
+}

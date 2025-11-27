@@ -9,39 +9,59 @@
 </head>
 <body>
 	<canvas id="particle-canvas" aria-hidden="true"></canvas>
-	<main class="card" role="main">
-		<h1>Blixer</h1>
-		<p>
-			Mainly a backend developer.
-		</p>
-		<div class="skills" aria-label="Core skills">
-			<span class="skill-badge skill-ts">
-				<span class="skill-icon" aria-hidden="true">
-					<i class="devicon-typescript-plain"></i>
-				</span>
-				<span class="skill-label">TypeScript</span>
-			</span>
-			<span class="skill-badge skill-python">
-				<span class="skill-icon" aria-hidden="true">
-					<i class="devicon-python-plain"></i>
-				</span>
-				<span class="skill-label">Python</span>
-			</span>
-			<span class="skill-badge skill-sql">
-				<span class="skill-icon" aria-hidden="true">
-					<i class="devicon-postgresql-plain"></i>
-				</span>
-				<span class="skill-label">SQL</span>
-			</span>
+	<header class="site-header" role="banner">
+		<span class="card-pill">&gt; blixer.dev</span>
+	</header>
+	<main class="card-shell" role="main">
+		<div class="card-stage">
+			<img id="profile-avatar" class="profile-avatar profile-avatar-floating" src="" alt="Blixeron's GitHub avatar" loading="lazy" width="200" height="200">
+			<article class="card" tabindex="0" role="button" aria-pressed="false" aria-label="Toggle GitHub profile view">
+				<div class="card-inner">
+				<section class="card-face card-front" aria-hidden="false">
+					<h1>Blixer</h1>
+					<p>
+						Mainly a backend developer.
+					</p>
+					<div class="skills" aria-label="Core skills">
+						<span class="skill-badge skill-ts">
+							<span class="skill-icon" aria-hidden="true">
+								<i class="devicon-typescript-plain"></i>
+							</span>
+							<span class="skill-label">TypeScript</span>
+						</span>
+						<span class="skill-badge skill-python">
+							<span class="skill-icon" aria-hidden="true">
+								<i class="devicon-python-plain"></i>
+							</span>
+							<span class="skill-label">Python</span>
+						</span>
+						<span class="skill-badge skill-sql">
+							<span class="skill-icon" aria-hidden="true">
+								<i class="devicon-postgresql-plain"></i>
+							</span>
+							<span class="skill-label">SQL</span>
+						</span>
+					</div>
+					<a class="cta" href="https://github.com/blixeron" target="_blank" rel="noopener noreferrer">
+						<span class="cta-icon" aria-hidden="true">
+							<i class="devicon-github-original"></i>
+						</span>
+						<span class="cta-label">GitHub</span>
+					</a>
+				</section>
+				<section class="card-face card-back" aria-hidden="true">
+					<div class="profile-readme">
+						<div id="readme-content" class="readme-content">
+							<p>Loading profile overview…</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</article>
 		</div>
-		<a class="cta" href="https://github.com/blixeron" target="_blank" rel="noopener noreferrer">
-			<span class="cta-icon" aria-hidden="true">
-				<i class="devicon-github-original"></i>
-			</span>
-			<span class="cta-label">GitHub</span>
-		</a>
 	</main>
 
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 	<script src="script.js"></script>
 </body>
 </html>

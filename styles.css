@@ -74,33 +74,294 @@ body::after {
     z-index: 1;
 }
 
-.card {
+.card-shell {
     position: relative;
     z-index: 2;
-    max-width: 520px;
-    padding: 3rem;
-    border-radius: 18px;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    box-shadow: 0 25px 60px rgba(20, 9, 36, 0.6);
-    text-align: center;
-    backdrop-filter: blur(10px);
+    width: min(1040px, calc(100vw - 1.5rem));
+    display: flex;
+    justify-content: center;
 }
 
-.card h1 {
+.card-stage {
+    position: relative;
+    width: min(980px, 100%);
+    min-height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --card-shift: 120px;
+    --avatar-shift: 120px;
+}
+
+.card-stage.is-compact {
+    flex-direction: column;
+    width: min(600px, 100%);
+    min-height: auto;
+    gap: 0;
+}
+
+.card-stage .card {
+    transform: translateX(0);
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.card-stage.is-flipped .card {
+    transform: translateX(var(--card-shift));
+}
+
+.card-stage.is-compact .card {
+    transform: translateX(0) !important;
+}
+
+.card-stage.is-compact .card-inner {
+    min-height: clamp(380px, 78vh, 520px);
+}
+
+.card {
+    position: relative;
+    width: clamp(320px, 70vw, 520px);
+    perspective: 1400px;
+    cursor: pointer;
+    border-radius: 22px;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 360px;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    border-radius: 22px;
+    background: rgba(40, 18, 37, 0.74);
+    border: 1px solid rgba(255, 198, 141, 0.22);
+    box-shadow: 0 25px 60px rgba(20, 9, 36, 0.5);
+    backdrop-filter: blur(14px);
+    backface-visibility: hidden;
+    isolation: isolate;
+    transition: opacity 0.32s ease;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.card-face::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(145deg, rgba(47, 21, 42, 0.68), rgba(31, 15, 29, 0.64));
+    box-shadow: inset 0 0 0 1px rgba(255, 201, 162, 0.05);
+    backdrop-filter: blur(18px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.card:not(.is-flipped) .card-back {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card.is-flipped .card-front {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-front {
+    text-align: center;
+    gap: 1.5rem;
+}
+
+.card-front h1 {
     margin: 0 0 1rem;
     font-weight: 600;
-    font-size: clamp(2rem, 5vw, 2.6rem);
+    font-size: clamp(2rem, 5vw, 2.4rem);
 }
 
-.card p {
+.card-front p {
     margin: 0 0 2rem;
+    font-size: 1rem;
     line-height: 1.6;
-    color: var(--text-muted);
+    color: rgba(255, 240, 225, 0.9);
 }
+
+.card-back {
+    transform: rotateY(180deg);
+    align-items: center;
+    text-align: left;
+}
+
+.site-header {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        top: 1rem;
+        left: 1rem;
+    }
+}
+
+.card-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 198, 141, 0.45);
+    background: rgba(255, 244, 230, 0.12);
+    color: rgba(255, 238, 220, 0.9);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 12px 24px rgba(20, 9, 36, 0.35);
+    margin: 0;
+}
+
+.profile-avatar {
+    display: block;
+    width: var(--avatar-size, 200px);
+    height: var(--avatar-size, 200px);
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 15px 40px rgba(20, 9, 36, 0.55);
+    border: 1px solid rgba(255, 220, 200, 0.4);
+}
+
+.profile-avatar-floating {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    transition:
+        transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.35s ease;
+    transition-delay: 0s, 0.24s;
+    pointer-events: none;
+    z-index: 1;
+}
+.card-stage.is-flipped .profile-avatar-floating {
+    opacity: 1;
+    transform: translate(calc(-50% - var(--avatar-shift)), -50%) scale(1);
+    transition-delay: 0s, 0s;
+}
+
+.card-stage.is-compact .profile-avatar-floating {
+    display: none !important;
+}
+
+
+.profile-readme {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+.readme-content {
+    flex: 1;
+    max-height: min(48vh, 360px);
+    padding-right: 0.75rem;
+    overflow: auto;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(255, 240, 225, 0.9);
+}
+
+.readme-content h1,
+.readme-content h2,
+.readme-content h3 {
+    font-weight: 600;
+    color: rgba(255, 244, 230, 0.95);
+    line-height: 1.2;
+    margin: 0 0 1rem;
+}
+
+.readme-content h1 {
+    font-size: clamp(2rem, 5vw, 2.4rem);
+}
+
+.readme-content h2 {
+    font-size: clamp(1.6rem, 3.8vw, 2rem);
+}
+
+.readme-content h3 {
+    font-size: clamp(1.3rem, 3.2vw, 1.65rem);
+}
+
+.readme-content p,
+.readme-content li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 0.9rem;
+}
+
+.readme-content ul,
+.readme-content ol {
+    padding-left: 1.2rem;
+    margin: 0 0 1.1rem;
+}
+
+.readme-content a {
+    color: #ffe3a4;
+}
+
+.readme-content::-webkit-scrollbar {
+    width: 0.45rem;
+}
+
+.readme-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 206, 148, 0.45);
+    border-radius: 999px;
+}
+
+.readme-content pre,
+.readme-content code {
+    font-family: 'Cascadia Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+@media (max-width: 720px) {
+    .card-inner {
+        min-height: 440px;
+    }
+
+    .card-face {
+        padding: 2.5rem 2.25rem;
+    }
+
+    .readme-content {
+        width: 100%;
+        max-height: 320px;
+        padding-right: 0;
+        text-align: left;
+    }
+}
+
 
 .skills {
-    margin-bottom: 2rem;
+    margin: 0;
     display: inline-flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -195,4 +456,14 @@ body::after {
 .cta:focus-visible {
     outline: 2px solid rgba(255, 220, 180, 0.8);
     outline-offset: 3px;
+}
+
+
+.card:focus-visible {
+    outline: 2px solid rgba(255, 220, 200, 0.7);
+    outline-offset: 6px;
+}
+
+.card.is-flipped .card-hint {
+    opacity: 0;
 }
